@@ -37,9 +37,14 @@ $(document).ready(function () {
 		}
 	}
 
-	// Fix H5P contents in accordions
+	// Fix H5P contents in closed accordions
 	$(".il_HAccordionToggleDef, .il_VAccordionToggleDef").click(function() {
 		//$(window).trigger("resize");
 		dispatchEvent(new Event("resize"));
 	});
+
+	// Fix H5P contents in open accordions
+	window.setTimeout(function () {
+		dispatchEvent(new Event("resize"));
+	}, 1);
 });
