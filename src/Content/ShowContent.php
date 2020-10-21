@@ -186,7 +186,12 @@ class ShowContent {
 		}
 
 		foreach ($this->js_files as $js_file) {
-			if (strpos($js_file, "data:application/javascript;base64,") === 0) {
+		    // fau: fixH5pInLso -avoid errors on content pages in learning sequence
+            // learning sequence uses own template and takes the js files array from the main template
+            // data urls are accepted in learning sequence template
+			if (strpos($js_file, "data:application/javascript;base64,") === 0
+                && $_GET['cmdClass'] != 'ilobjlearningsequencelearnergui') {
+            // fau.
 				if (!isset($this->js_files_output[$js_file])) {
 					$this->js_files_output[$js_file] = true;
 
