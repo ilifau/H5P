@@ -15,251 +15,220 @@ use srag\Plugins\H5P\Utils\H5PTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Counter extends ActiveRecord {
+class Counter extends ActiveRecord
+{
 
-	use DICTrait;
-	use H5PTrait;
-	const TABLE_NAME = "rep_robj_xhfp_cnt";
-	const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    use DICTrait;
+    use H5PTrait;
 
-
-	/**
-	 * @return string
-	 */
-	public function getConnectorContainerName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @return string
-	 *
-	 * @deprecated
-	 */
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @param string $type
-	 *
-	 * @return Counter[]
-	 */
-	public static function getCountersByType($type) {
-		/**
-		 * @var Counter[] $h5p_counters
-		 */
-
-		$h5p_counters = self::where([
-			"type" => $type
-		])->get();
-
-		return $h5p_counters;
-	}
-
-
-	/**
-	 * @param string $type
-	 * @param string $library_name
-	 * @param string $libray_version
-	 *
-	 * @return Counter|null
-	 */
-	public static function getCounterByLibrary($type, $library_name, $library_version) {
-		/**
-		 * @var Counter|null $h5p_counter
-		 */
-
-		$h5p_counter = self::where([
-			"type" => $type,
-			"library_name" => $library_name,
-			"library_version" => $library_version
-		])->first();
-
-		return $h5p_counter;
-	}
+    const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    const TABLE_NAME = "rep_robj_" . ilH5PPlugin::PLUGIN_ID . "_cnt";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $id;
+    /**
+     * @var string
+     *
+     * @con_has_field      true
+     * @con_fieldtype      text
+     * @con_length         127
+     * @con_is_notnull     true
+     */
+    protected $library_name = "";
+    /**
+     * @var string
+     *
+     * @con_has_field      true
+     * @con_fieldtype      text
+     * @con_length         31
+     * @con_is_notnull     true
+     */
+    protected $library_version = "";
+    /**
+     * @var int
+     *
+     * @con_has_field      true
+     * @con_fieldtype      integer
+     * @con_length         8
+     * @con_is_notnull     true
+     */
+    protected $num = 0;
+    /**
+     * @var string
+     *
+     * @con_has_field      true
+     * @con_fieldtype      text
+     * @con_length         63
+     * @con_is_notnull     true
+     */
+    protected $type = "";
 
 
-	/**
-	 * Workaround for multiple primary keys: type, library_name, library_version
-	 *
-	 * @var int
-	 *
-	 * @con_has_field    true
-	 * @con_fieldtype    integer
-	 * @con_length       8
-	 * @con_is_notnull   true
-	 * @con_is_primary   true
-	 * @con_sequence     true
-	 */
-	protected $id;
-	/**
-	 * @var string
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      text
-	 * @con_length         63
-	 * @con_is_notnull     true
-	 */
-	protected $type = "";
-	/**
-	 * @var string
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      text
-	 * @con_length         127
-	 * @con_is_notnull     true
-	 */
-	protected $library_name = "";
-	/**
-	 * @var string
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      text
-	 * @con_length         31
-	 * @con_is_notnull     true
-	 */
-	protected $library_version = "";
-	/**
-	 * @var int
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      integer
-	 * @con_length         8
-	 * @con_is_notnull     true
-	 */
-	protected $num = 0;
+    /**
+     * Counter constructor
+     *
+     * @param int              $primary_key_value
+     * @param arConnector|null $connector
+     */
+    public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null)
+    {
+        parent::__construct($primary_key_value, $connector);
+    }
 
 
-	/**
-	 * Counter constructor
-	 *
-	 * @param int              $primary_key_value
-	 * @param arConnector|null $connector
-	 */
-	public function __construct($primary_key_value = 0, arConnector $connector = NULL) {
-		parent::__construct($primary_key_value, $connector);
-	}
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 *
-	 */
-	public function addNum() {
-		$this->num ++;
-	}
+    /**
+     *
+     */
+    public function addNum()/* : void*/
+    {
+        $this->num++;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep($field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			default:
-				return NULL;
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp($field_name, $field_value) {
-		switch ($field_name) {
-			case "id":
-			case "num":
-				return intval($field_value);
-
-			default:
-				return NULL;
-		}
-	}
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)/* : void*/
+    {
+        $this->id = $id;
+    }
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
+    /**
+     * @return string
+     */
+    public function getLibraryName() : string
+    {
+        return $this->library_name;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getType() {
-		return $this->type;
-	}
+    /**
+     * @param string $library_name
+     */
+    public function setLibraryName(string $library_name)/* : void*/
+    {
+        $this->library_name = $library_name;
+    }
 
 
-	/**
-	 * @param string $type
-	 */
-	public function setType($type) {
-		$this->type = $type;
-	}
+    /**
+     * @return string
+     */
+    public function getLibraryVersion() : string
+    {
+        return $this->library_version;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getLibraryName() {
-		return $this->library_name;
-	}
+    /**
+     * @param string $library_version
+     */
+    public function setLibraryVersion(string $library_version)/* : void*/
+    {
+        $this->library_version = $library_version;
+    }
 
 
-	/**
-	 * @param string $library_name
-	 */
-	public function setLibraryName($library_name) {
-		$this->library_name = $library_name;
-	}
+    /**
+     * @return int
+     */
+    public function getNum() : int
+    {
+        return $this->num;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getLibraryVersion() {
-		return $this->library_version;
-	}
+    /**
+     * @param int $num
+     */
+    public function setNum(int $num)/* : void*/
+    {
+        $this->num = $num;
+    }
 
 
-	/**
-	 * @param string $library_version
-	 */
-	public function setLibraryVersion($library_version) {
-		$this->library_version = $library_version;
-	}
+    /**
+     * @return string
+     */
+    public function getType() : string
+    {
+        return $this->type;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getNum() {
-		return $this->num;
-	}
+    /**
+     * @param string $type
+     */
+    public function setType(string $type)/* : void*/
+    {
+        $this->type = $type;
+    }
 
 
-	/**
-	 * @param int $num
-	 */
-	public function setNum($num) {
-		$this->num = $num;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            default:
+                return parent::sleep($field_name);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            case "id":
+            case "num":
+                return intval($field_value);
+
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
+    }
 }

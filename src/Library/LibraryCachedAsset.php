@@ -15,172 +15,158 @@ use srag\Plugins\H5P\Utils\H5PTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class LibraryCachedAsset extends ActiveRecord {
+class LibraryCachedAsset extends ActiveRecord
+{
 
-	use DICTrait;
-	use H5PTrait;
-	const TABLE_NAME = "rep_robj_xhfp_lib_ca";
-	const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    use DICTrait;
+    use H5PTrait;
 
-
-	/**
-	 * @return string
-	 */
-	public function getConnectorContainerName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @return string
-	 *
-	 * @deprecated
-	 */
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @param int $library_id
-	 *
-	 * @return LibraryCachedAsset[]
-	 */
-	public static function getCachedAssetsByLibrary($library_id) {
-		/**
-		 * @var LibraryCachedAsset[] $h5p_cached_assets
-		 */
-
-		$h5p_cached_assets = self::where([
-			"library_id" => $library_id
-		])->get();
-
-		return $h5p_cached_assets;
-	}
+    const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    const TABLE_NAME = "rep_robj_" . ilH5PPlugin::PLUGIN_ID . "_lib_ca";
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_length       64
+     * @con_is_notnull   true
+     */
+    protected $hash = "";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $id;
+    /**
+     * @var int
+     *
+     * @con_has_field      true
+     * @con_fieldtype      integer
+     * @con_length         8
+     * @con_is_notnull     true
+     * @__con_is_primary   true
+     */
+    protected $library_id;
 
 
-	/**
-	 * Workaround for multiple primary keys: library_id, hash
-	 *
-	 * @var int
-	 *
-	 * @con_has_field    true
-	 * @con_fieldtype    integer
-	 * @con_length       8
-	 * @con_is_notnull   true
-	 * @con_is_primary   true
-	 * @con_sequence     true
-	 */
-	protected $id;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      integer
-	 * @con_length         8
-	 * @con_is_notnull     true
-	 * @__con_is_primary   true
-	 */
-	protected $library_id;
-	/**
-	 * @var string
-	 *
-	 * @con_has_field    true
-	 * @con_fieldtype    text
-	 * @con_length       64
-	 * @con_is_notnull   true
-	 */
-	protected $hash = "";
+    /**
+     * LibraryCachedAsset constructor
+     *
+     * @param int              $primary_key_value
+     * @param arConnector|null $connector
+     */
+    public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null)
+    {
+        parent::__construct($primary_key_value, $connector);
+    }
 
 
-	/**
-	 * LibraryCachedAsset constructor
-	 *
-	 * @param int              $primary_key_value
-	 * @param arConnector|null $connector
-	 */
-	public function __construct($primary_key_value = 0, arConnector $connector = NULL) {
-		parent::__construct($primary_key_value, $connector);
-	}
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep($field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			default:
-				return NULL;
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp($field_name, $field_value) {
-		switch ($field_name) {
-			case "id":
-			case "library_id":
-				return intval($field_value);
-
-			default:
-				return NULL;
-		}
-	}
+    /**
+     * @return string
+     */
+    public function getHash() : string
+    {
+        return $this->hash;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * @param string $hash
+     */
+    public function setHash(string $hash)/* : void*/
+    {
+        $this->hash = $hash;
+    }
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getLibraryId() {
-		return $this->library_id;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)/* : void*/
+    {
+        $this->id = $id;
+    }
 
 
-	/**
-	 * @param int $library_id
-	 */
-	public function setLibraryId($library_id) {
-		$this->library_id = $library_id;
-	}
+    /**
+     * @return int
+     */
+    public function getLibraryId() : int
+    {
+        return $this->library_id;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getHash() {
-		return $this->hash;
-	}
+    /**
+     * @param int $library_id
+     */
+    public function setLibraryId(int $library_id)/* : void*/
+    {
+        $this->library_id = $library_id;
+    }
 
 
-	/**
-	 * @param string $hash
-	 */
-	public function setHash($hash) {
-		$this->hash = $hash;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            default:
+                return parent::sleep($field_name);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            case "id":
+            case "library_id":
+                return intval($field_value);
+
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
+    }
 }

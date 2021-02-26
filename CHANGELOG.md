@@ -1,5 +1,88 @@
 # Changelog
 
+## [2.7.2]
+- Remove generate readme and auto_version_tag_ci
+
+## [2.7.1]
+- Update keywords
+
+## [2.7.0]
+- Add support for metadata fields
+- Remove the standalone title field and use the metadata title field
+
+## [2.6.10]
+- Fix get default options
+- Disable 'Automatically contribute usage statistics' by default
+
+## [2.6.9]
+- Fix access permissions in page component editor in wikis
+- Update readme
+
+## [2.6.8]
+- Ping after each object for not ILIAS auto set inactive cron job if during longer
+
+## [2.6.7]
+- Footer permanent link
+
+## [2.6.6]
+- Fix H5P contents in accordions
+
+## [2.6.5]
+- Auto tag new releases
+
+## [2.6.4]
+- `Ilias7PreWarn`
+
+## [2.6.3]
+- Fix update plugin may not work complete
+- Dev tools
+
+## [2.6.2]
+- Fix PHP 7.0
+
+## [2.6.1]
+- Fix PHP 7.0
+
+## [2.6.0]
+- ILIAS 6 support
+- Min. PHP 7.0
+- Remove ILIAS 5.3 support
+
+## [2.5.6]
+- Fix working in learning sequences
+- Add lucene search
+
+## [2.5.5]
+- Fix working in portfolio pages
+
+## [2.5.4]
+- Fix content rendering (curly brackets) due `ilTemplate` replaced/removed it (Occured in some MathJax formulas)
+
+## [2.5.3]
+- Fix install libraries
+
+## [2.5.2]
+- Improve import content
+- Implement addons feature (For load MathDisplay/MathJax)
+
+## [2.5.1]
+- Fixes
+
+## [2.5.0]
+- May fix missing db tables
+
+## [2.4.5]
+- Some improvments
+
+## [2.4.4]
+- Fix cron job
+
+## [2.4.3]
+- Fix validate required library field
+
+## [2.4.2]
+- Update H5P library to 1.24
+
 ## [2.4.1]
 - Fix H5P contents in accordions
 

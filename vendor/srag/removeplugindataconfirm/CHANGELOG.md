@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.7.2]
+- Fix composer 2
+- Move doc/DESCRIPTION.md to src/LONG_DESCRIPTION.md
+
+## [0.7.1]
+- Generate readme
+
+## [0.7.0]
+- Generate readme
+
+## [0.6.6]
+- Move LibraryLanguageInstaller to separate package
+
+## [0.6.5]
+- `shouldUseOneUpdateStepOnly` also for repository plugins
+
+## [0.6.4]
+- `shouldUseOneUpdateStepOnly`
+
+## [0.6.3]
+- `installRemovePluginDataConfirmLanguages`
+
+## [0.6.2]
+- Min. PHP 7.0
+
+## [0.6.1]
+- Fix
+
+## [0.6.0]
+- Automatic ctrl class
+
+## [0.5.0]
+- Some improvments
+
 ## [0.4.1]
 - Fix
 

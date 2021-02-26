@@ -15,250 +15,186 @@ use srag\Plugins\H5P\Utils\H5PTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class LibraryDependencies extends ActiveRecord {
+class LibraryDependencies extends ActiveRecord
+{
 
-	use DICTrait;
-	use H5PTrait;
-	const TABLE_NAME = "rep_robj_xhfp_lib_dep";
-	const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    use DICTrait;
+    use H5PTrait;
 
-
-	/**
-	 * @return string
-	 */
-	public function getConnectorContainerName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @return string
-	 *
-	 * @deprecated
-	 */
-	public static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
-
-
-	/**
-	 * @param int $library_id
-	 *
-	 * @return self[]
-	 */
-	public static function getDependencies($library_id) {
-		/**
-		 * @var self[] $h5p_library_dependencies
-		 */
-
-		$h5p_library_dependencies = self::where([
-			"library_id" => $library_id
-		])->get();
-
-		return $h5p_library_dependencies;
-	}
-
-
-	/**
-	 * @param int $library_id
-	 *
-	 * @return int
-	 */
-	public static function getLibraryUsage($library_id) {
-		/**
-		 * @var self[] $h5p_library_dependencies
-		 */
-
-		$h5p_library_dependencies = self::where([
-			"required_library_id" => $library_id
-		])->get();
-
-		return count($h5p_library_dependencies);
-	}
+    const PLUGIN_CLASS_NAME = ilH5PPlugin::class;
+    const TABLE_NAME = "rep_robj_" . ilH5PPlugin::PLUGIN_ID . "_lib_dep";
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $dependency_type = "";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $id;
+    /**
+     * @var int
+     *
+     * @con_has_field      true
+     * @con_fieldtype      integer
+     * @con_length         8
+     * @con_is_notnull     true
+     * @__con_is_primary   true
+     */
+    protected $library_id;
+    /**
+     * @var int
+     *
+     * @con_has_field      true
+     * @con_fieldtype      integer
+     * @con_length         8
+     * @con_is_notnull     true
+     * @__con_is_primary   true
+     */
+    protected $required_library_id;
 
 
-	/**
-	 * @param int $library_id
-	 *
-	 * @return array[]
-	 */
-	public static function getDependenciesJoin($library_id) {
-		/**
-		 * @var array[] $h5p_library_dependencies
-		 */
-
-		$h5p_library_dependencies = self::innerjoin(Library::TABLE_NAME, "required_library_id", "library_id")->where([
-			self::TABLE_NAME . ".library_id" => $library_id
-		])->getArray();
-
-		return $h5p_library_dependencies;
-	}
+    /**
+     * LibraryDependencies constructor
+     *
+     * @param int              $primary_key_value
+     * @param arConnector|null $connector
+     */
+    public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null)
+    {
+        parent::__construct($primary_key_value, $connector);
+    }
 
 
-	/**
-	 * @param int $library_id
-	 *
-	 * @return array
-	 */
-	public static function getUsageJoin($library_id) {
-		/**
-		 * @var self[] $h5p_library_usages
-		 */
-
-		$h5p_library_usages = self::innerjoin(Library::TABLE_NAME, "library_id", "library_id")->where([
-			self::TABLE_NAME . ".required_library_id" => $library_id
-		])->getArray();
-
-		return $h5p_library_usages;
-	}
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 * @var int
-	 *
-	 * @con_has_field    true
-	 * @con_fieldtype    integer
-	 * @con_length       8
-	 * @con_is_notnull   true
-	 * @con_is_primary   true
-	 * @con_sequence     true
-	 */
-	protected $id;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      integer
-	 * @con_length         8
-	 * @con_is_notnull     true
-	 * @__con_is_primary   true
-	 */
-	protected $library_id;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field      true
-	 * @con_fieldtype      integer
-	 * @con_length         8
-	 * @con_is_notnull     true
-	 * @__con_is_primary   true
-	 */
-	protected $required_library_id;
-	/**
-	 * @var string
-	 *
-	 * @con_has_field    true
-	 * @con_fieldtype    text
-	 * @con_is_notnull   true
-	 */
-	protected $dependency_type = "";
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::TABLE_NAME;
+    }
 
 
-	/**
-	 * LibraryDependencies constructor
-	 *
-	 * @param int              $primary_key_value
-	 * @param arConnector|null $connector
-	 */
-	public function __construct($primary_key_value = 0, arConnector $connector = null) {
-		parent::__construct($primary_key_value, $connector);
-	}
+    /**
+     * @return string
+     */
+    public function getDependencyType() : string
+    {
+        return $this->dependency_type;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep($field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			default:
-				return null;
-		}
-	}
+    /**
+     * @param string $dependency_type
+     */
+    public function setDependencyType(string $dependency_type)/* : void*/
+    {
+        $this->dependency_type = $dependency_type;
+    }
 
 
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp($field_name, $field_value) {
-		switch ($field_name) {
-			case "id":
-			case "library_id":
-			case "required_library_id":
-				return intval($field_value);
-
-			default:
-				return null;
-		}
-	}
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)/* : void*/
+    {
+        $this->id = $id;
+    }
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
+    /**
+     * @return int
+     */
+    public function getLibraryId() : int
+    {
+        return $this->library_id;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getLibraryId() {
-		return $this->library_id;
-	}
+    /**
+     * @param int $library_id
+     */
+    public function setLibraryId(int $library_id)/* : void*/
+    {
+        $this->library_id = $library_id;
+    }
 
 
-	/**
-	 * @param int $library_id
-	 */
-	public function setLibraryId($library_id) {
-		$this->library_id = $library_id;
-	}
+    /**
+     * @return int
+     */
+    public function getRequiredLibraryId() : int
+    {
+        return $this->required_library_id;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getRequiredLibraryId() {
-		return $this->required_library_id;
-	}
+    /**
+     * @param int $required_library_id
+     */
+    public function setRequiredLibraryId(int $required_library_id)/* : void*/
+    {
+        $this->required_library_id = $required_library_id;
+    }
 
 
-	/**
-	 * @param int $required_library_id
-	 */
-	public function setRequiredLibraryId($required_library_id) {
-		$this->required_library_id = $required_library_id;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            default:
+                return parent::sleep($field_name);
+        }
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getDependencyType() {
-		return $this->dependency_type;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            case "id":
+            case "library_id":
+            case "required_library_id":
+                return intval($field_value);
 
-
-	/**
-	 * @param string $dependency_type
-	 */
-	public function setDependencyType($dependency_type) {
-		$this->dependency_type = $dependency_type;
-	}
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
+    }
 }

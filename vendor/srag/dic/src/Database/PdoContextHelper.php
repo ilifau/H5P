@@ -16,38 +16,42 @@ use srag\DIC\H5P\Exception\DICException;
  *
  * @internal
  */
-final class PdoContextHelper extends ilDBPdo {
+final class PdoContextHelper extends ilDBPdo
+{
 
-	/**
-	 * @param ilDBPdoInterface $db
-	 *
-	 * @return PDO
-	 *
-	 * @throws DICException PdoContextHelper only supports ilDBPdo!
-	 *
-	 * @internal
-	 */
-	public static function getPdo(ilDBPdoInterface $db) {
-		if (!($db instanceof ilDBPdo)) {
-			throw new DICException("PdoContextHelper only supports ilDBPdo!");
-		}
+    /**
+     * PdoContextHelper constructor
+     */
+    private function __construct()
+    {
 
-		return $db->pdo;
-	}
+    }
 
 
-	/**
-	 * PdoContextHelper constructor
-	 */
-	private function __construct() {
+    /**
+     * @param ilDBPdoInterface $db
+     *
+     * @return PDO
+     *
+     * @throws DICException PdoContextHelper only supports ilDBPdo!
+     *
+     * @internal
+     */
+    public static function getPdo(ilDBPdoInterface $db) : PDO
+    {
+        if (!($db instanceof ilDBPdo)) {
+            throw new DICException("PdoContextHelper only supports ilDBPdo!");
+        }
 
-	}
+        return $db->pdo;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function initHelpers() {
+    /**
+     * @inheritDoc
+     */
+    public function initHelpers()
+    {
 
-	}
+    }
 }
