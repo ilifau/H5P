@@ -51,7 +51,9 @@ class H5P {
 
 
 	const CSV_SEPARATOR = ", ";
-	const DATA_FOLDER = "h5p";
+    // fau: h5pDataBackup - tweak data folder
+	const DATA_FOLDER = "h5p-backup";
+	// fau.
 	/**
 	 * @var H5PActionGUI
 	 */
