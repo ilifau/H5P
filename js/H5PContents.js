@@ -44,4 +44,11 @@ $(document).ready(function () {
             dispatchEvent(new Event("resize"));
         }, 10);
     });
+
+    // fau: fixH5pInLm - raise resize immediately
+    window.setTimeout(function () {
+        dispatchEvent(new Event("resize"));
+    }, 1);
+    // fau.
+
 });
