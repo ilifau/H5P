@@ -116,7 +116,9 @@ class SolveStatus extends ActiveRecord
     /**
      * @param int $content_id
      */
-    public function setContentId(int $content_id)/* : void*/
+    // fau: fixH5pSolve - allow null as content id
+    public function setContentId($content_id)/* : void*/
+    // fau.
     {
         $this->content_id = $content_id;
     }
